@@ -1,0 +1,5 @@
+interface:
+  display_name: "Explain"
+  short_description: "Explain logic as STE text, a diagram, an HTML page, or a video"
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,4 @@
+interface:
+  display_name: "ADR Generator"
+  short_description: "Document architecture and business decisions"
+  default_prompt: "Use $mradkhh-adr-generator to document a consequential decision in the target project's ADR catalog, resolving the project and output directory and recording rationale and verification evidence."
