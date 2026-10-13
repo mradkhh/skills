@@ -1,6 +1,6 @@
 ---
 name: mradkhh-showcase
-description: Present a code change or new logic to a non-technical audience — client, business owner, manager — as an editable .pptx deck and an animated explainer video, in plain Uzbek with business value first and no code on screen.
+description: Present a code change or new logic to a non-technical audience — client, business owner, manager — as an editable .pptx deck and an animated explainer video with optional Uzbek voice-over, in plain Uzbek with business value first and no code on screen.
 disable-model-invocation: true
 argument-hint: "[deck|video|both] <change or feature to present>"
 ---
@@ -10,7 +10,7 @@ argument-hint: "[deck|video|both] <change or feature to present>"
 The user built or changed some logic and must explain it to people who do not read code: a client, a business owner, a manager. Your job is to turn the code into a short story about **what changes for people and why it matters**, then render that story twice from one source:
 
 - an editable **`.pptx` deck** for the meeting, and
-- an animated **`.mp4` video** to send before or after it.
+- an animated **`.mp4` video** to send before or after it — silent, or with an Uzbek voice-over.
 
 Both come from one `storyboard.json`, so they always tell the same story. For a developer audience, use `/mradkhh-explain` instead.
 
@@ -62,6 +62,7 @@ The code does not hold the business context. Ask in one message (use the session
 3. Which numbers can we show, and where do they come from (measured, client's estimate)? "None" is a fine answer.
 4. Client or project name and date for the title (optional).
 5. Anything to leave out (internal limits, unreleased parts)?
+6. Should the video speak? If yes: a male (Sardor) or a female (Madina) voice. **Note:** the voice-over text goes to Microsoft's online speech service — confirm that is fine for this client.
 
 Do not fill gaps yourself. When the user skips a question, leave that part out of the story.
 
@@ -69,7 +70,7 @@ Done when each question has an answer or an explicit skip.
 
 ### 4. Write the storyboard
 
-Follow [STORY.md](STORY.md): write `<slug>/storyboard.json` with 5–8 beats along the story arc, each tied to facts. Then check it (after step 5 exists, from `<work>/engine/`):
+Follow [STORY.md](STORY.md): write `<slug>/storyboard.json` with 5–8 beats along the story arc, each tied to facts. When the video speaks, give every beat a `narration` and set `voice`. Then check it (after step 5 exists, from `<work>/engine/`):
 
 ```bash
 node scripts/check.mjs ../<slug>/storyboard.json --fix
@@ -77,7 +78,7 @@ node scripts/check.mjs ../<slug>/storyboard.json --fix
 
 Fix every `✗` error. Review every `⚠` warning and rewrite jargon with [PLAIN.md](PLAIN.md).
 
-Show the user the outline — one line per beat: headline, then what appears — and wait for an OK before rendering. A wrong story costs a minute here, not a render.
+Show the user the outline — one line per beat: headline, what appears, and the narration when there is one — and wait for an OK before rendering. A wrong story costs a minute here, not a render.
 
 Done when the check prints `OK` and the user approved the outline.
 
@@ -92,7 +93,7 @@ The brand (colours, fonts, name) lives in `engine/brand.json` — the mradkhh pe
 ### 6. Render
 
 - Deck: follow [DECK.md](DECK.md).
-- Video: follow [VIDEO.md](VIDEO.md).
+- Video: follow [VIDEO.md](VIDEO.md). With narration, run `voice.mjs` first.
 
 Look at the slide images and video stills yourself before you show anything. When text overflows or overlaps, shorten the text in the storyboard — do not shrink fonts.
 

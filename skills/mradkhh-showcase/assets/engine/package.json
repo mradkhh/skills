@@ -6,6 +6,7 @@
   "scripts": {
     "check": "node scripts/check.mjs",
     "deck": "node scripts/deck.mjs",
+    "voice": "node scripts/voice.mjs",
     "video": "node scripts/video.mjs",
     "studio": "remotion studio src/index.ts"
   },
@@ -15,6 +16,7 @@
     "@remotion/google-fonts": "4.0.535",
     "@remotion/renderer": "4.0.535",
     "@remotion/transitions": "4.0.535",
+    "msedge-tts": "2.0.9",
     "pptxgenjs": "4.0.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",

@@ -34,14 +34,29 @@ function itemCount(beat) {
   );
 }
 
+const wordCount = s => s.split(/\s+/).filter(Boolean).length;
+/** Uzbek edge-tts voices speak ~0.58 s per word; used until audio exists. */
+const SPOKEN_SECONDS_PER_WORD = 0.58;
+/** Pause after the narration (the mp3 already ends with ~0.8 s of silence). */
+const AFTER_VOICE = 0.5;
+
+/** Narration length: measured when the audio exists, estimated otherwise. */
+export function voiceSeconds(beat) {
+  if (beat.audio?.seconds) return beat.audio.seconds;
+  if (beat.narration) return wordCount(beat.narration) * SPOKEN_SECONDS_PER_WORD;
+  return 0;
+}
+
 /**
- * How long a beat stays on screen. There is no narration, so the viewer
- * must read every word: ~0.32 s per word plus time to watch each item.
+ * How long a beat stays on screen. Without narration the viewer must read
+ * every word: ~0.32 s per word plus time to watch each item. With
+ * narration the voice sets the pace, and the beat ends a second after it.
  */
 export function beatSeconds(beat) {
   if (typeof beat.seconds === "number") return beat.seconds;
-  const words = beatTexts(beat).join(" ").split(/\s+/).filter(Boolean).length;
-  const raw = 2.5 + words * 0.32 + itemCount(beat) * 0.6;
+  const voice = voiceSeconds(beat);
+  if (voice > 0) return Math.max(MIN_SECONDS, Math.ceil((voice + AFTER_VOICE) * 2) / 2);
+  const raw = 2.5 + wordCount(beatTexts(beat).join(" ")) * 0.32 + itemCount(beat) * 0.6;
   return Math.min(MAX_SECONDS, Math.max(MIN_SECONDS, Math.round(raw * 2) / 2));
 }
 
