@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Html5Audio, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { linearTiming, TransitionSeries } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
 import { TRANSITION_FRAMES, timeline } from "../lib/timing.mjs";
@@ -94,6 +94,7 @@ export const Showcase: React.FC<Storyboard> = storyboard => {
               <AbsoluteFill style={{ background: C.background }}>
                 <Scene beat={beat} frames={tl[i].frames} storyboard={storyboard} />
               </AbsoluteFill>
+              {beat.audio && <Html5Audio src={staticFile(beat.audio.file)} />}
             </TransitionSeries.Sequence>
           </Fragment>
         ))}

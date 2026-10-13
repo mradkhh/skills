@@ -10,6 +10,10 @@ type BeatBase = {
   facts?: string[];
   /** Overrides the computed on-screen time. */
   seconds?: number;
+  /** What the voice says during this beat. Optional; see VIDEO.md. */
+  narration?: string;
+  /** Filled in by scripts/video.mjs from audio/manifest.json; `file` is relative to audio/. */
+  audio?: { file: string; seconds: number };
 };
 
 export type TitleBeat = BeatBase & { type: "title"; subtitle?: string };
@@ -63,6 +67,8 @@ export type Beat =
 
 export type Storyboard = {
   title: string;
+  /** edge-tts voice for the narration, e.g. "uz-UZ-SardorNeural". */
+  voice?: string;
   client?: string;
   date?: string;
   beats: Beat[];

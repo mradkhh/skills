@@ -29,7 +29,7 @@ Use 5–8 beats in this order. Skip a beat when it has nothing true to say; neve
 
 ## Storyboard fields
 
-`storyboard.json` root: `title` (required), `client`, `date` (shown on the title beat), `beats` (4–10).
+`storyboard.json` root: `title` (required), `client`, `date` (shown on the title beat), `voice` (narration voice, default `uz-UZ-SardorNeural`), `beats` (4–10).
 
 Every beat has:
 
@@ -38,7 +38,8 @@ Every beat has:
 - `headline` — the beat's message as a short sentence or question; at most 40 characters (70 for `title`).
 - `facts` — IDs from `facts.md`. Required for `points`, `flow`, `branch`, `compare`, `screen`.
 - `notes` — optional speaker notes for the deck: what to say aloud, 1–3 sentences. Never shown in the video.
-- `seconds` — optional override of the on-screen time. By default it comes from the word count.
+- `narration` — optional voice-over, ≤ 320 characters (see below). Also the default speaker note when `notes` is empty.
+- `seconds` — optional override of the on-screen time. By default it comes from the narration's length, or from the word count when there is none.
 
 `highlight: true` marks **what this change adds**. It turns the item green and adds a "Yangi" badge. Use it on one item per beat.
 
@@ -64,3 +65,12 @@ Every beat has:
 - `branch` options use the words the audience uses for the situation, not the code's condition.
 - `screen` labels are the real texts the person sees on the screen, simplified.
 - `points` under Limits are honest: what is still manual, what depends on a bank or a partner.
+
+## Writing the narration
+
+The voice says what the picture shows, in the order it appears — it does not read the slide word for word.
+
+- 1–3 short spoken sentences per beat (about 7–11 seconds). Give every beat a narration, or none: a silent beat inside a narrated video feels broken.
+- Write numbers and symbols as they are spoken: "yetmish foiz", not "70%"; "bir daqiqa", not "1 daq."; "ikki yarim", not "2,5". `check.mjs` warns about symbols.
+- No abbreviations the voice cannot say (SMS is fine; "h.k.", "va b." are not).
+- Same plain-language rules as the screen text ([PLAIN.md](PLAIN.md)): no code, no jargon, same words for the same things.

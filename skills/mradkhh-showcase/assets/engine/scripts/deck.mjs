@@ -329,7 +329,9 @@ function drawElement(slide, el, x, y, w, h, font, s) {
 for (const beat of sb.beats) {
   const slide = pptx.addSlide({ masterName: "BRAND" });
   render[beat.type](slide, beat);
-  if (beat.notes) slide.addNotes(beat.notes);
+  // Speaker notes: what to say. The narration is a good default when there are no notes.
+  const notes = beat.notes ?? beat.narration;
+  if (notes) slide.addNotes(notes);
 }
 
 await pptx.writeFile({ fileName: resolve(output) });

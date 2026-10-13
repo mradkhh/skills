@@ -8,7 +8,7 @@ Every skill name starts with `mradkhh-`, so it never collides with another autho
 | --- | --- | --- |
 | [`mradkhh-adr-generator`](skills/mradkhh-adr-generator) | Records architectural and business decisions as ADRs, with rationale, consequences, and verification evidence. | Automatic on ADR requests, or by name |
 | [`mradkhh-explain`](skills/mradkhh-explain) | Explains a piece of logic or an LLM's output on a rung of the format ladder: ASD-STE100 text → diagram → interactive HTML page → narrated explainer video. | By name only: `/mradkhh-explain [ste\|diagram\|html\|video] <topic>` |
-| [`mradkhh-showcase`](skills/mradkhh-showcase) | Presents a code change to non-technical people (client, business owner) as an editable `.pptx` deck and an animated explainer video, in plain Uzbek with no code on screen. | By name only: `/mradkhh-showcase [deck\|video\|both] <change>` |
+| [`mradkhh-showcase`](skills/mradkhh-showcase) | Presents a code change to non-technical people (client, business owner) as an editable `.pptx` deck and an animated explainer video with optional Uzbek voice-over, in plain Uzbek with no code on screen. | By name only: `/mradkhh-showcase [deck\|video\|both] <change>` |
 
 ## Install
 
@@ -44,7 +44,7 @@ Every claim is grounded in a `file:line`. The video rung needs Python 3.10–3.1
 `mradkhh-explain` is for developers. `mradkhh-showcase` is for the people who pay for the work: it turns a feature or a diff into a story about what changes for customers and staff, and renders it twice from one `storyboard.json`:
 
 1. **deck** — an editable 16:9 `.pptx` (pptxgenjs): native shapes, speaker notes, opens in PowerPoint, Keynote, and Google Slides.
-2. **video** — an animated `.mp4` (Remotion): flows that walk, branches that grow, simplified phone and browser screens. No narration; the animation carries the story.
+2. **video** — an animated `.mp4` (Remotion): flows that walk, branches that grow, simplified phone and browser screens. Optional Uzbek voice-over (Sardor or Madina) through Microsoft Edge's free online voices; without it, the animation carries the story.
 
 Every claim is grounded in a `file:line` in a private `facts.md`, but no code reaches the screen. The agent asks for business context and numbers instead of inventing them, and a checker blocks code, jargon, and unsourced metrics. Needs Node.js 20+; asks before installing (~350 MB of npm packages plus Chrome Headless Shell on the first render). Remotion is free for individuals and companies of up to 3 people.
 

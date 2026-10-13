@@ -6,10 +6,12 @@
  *
  * Errors (exit 1): broken structure, text that will not fit, code on screen,
  * beats without a fact, numbers without a source.
- * Warnings: jargon, numbers in plain text, ASCII apostrophes. Review each one.
+ * Warnings: jargon, numbers in plain text, symbols in narration, ASCII
+ * apostrophes. Review each one.
  * --fix rewrites Uzbek apostrophes (o' g' → o‘ g‘, other ' → ’) in place.
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { FPS, beatSeconds, beatTexts, timeline, totalFrames } from "../lib/timing.mjs";
 
 const [file, ...flags] = process.argv.slice(2);
@@ -52,6 +54,7 @@ const MAX = {
   source: 110,
   elementLabel: { phone: 26, browser: 40 },
   caption: 120,
+  narration: 320,
 };
 const COUNT = {
   beats: [4, 10],
@@ -98,6 +101,7 @@ if (count("beats", sb.beats, COUNT.beats)) {
     if (!TYPES.includes(b.type)) return err(at, `type must be one of ${TYPES.join(", ")}`);
 
     text(`${at}.headline`, b.headline, b.type === "title" ? MAX.title : MAX.headline);
+    text(`${at}.narration`, b.narration, MAX.narration, false);
     if (NEEDS_FACTS.includes(b.type) && !(Array.isArray(b.facts) && b.facts.length > 0)) {
       err(at, "facts is empty — every claim needs an ID from facts.md");
     }
@@ -219,6 +223,20 @@ for (const [i, b] of (sb.beats ?? []).entries()) {
       if (!fix) warn(at, `ASCII apostrophe in "${t}" — run with --fix`);
     }
   }
+  if (typeof b.narration === "string") {
+    const n = b.narration;
+    for (const [re, what] of CODE_PATTERNS) {
+      if (re.test(n)) err(at, `${what} in narration — the voice would read it aloud`);
+    }
+    const found = jargonIn(n);
+    if (found.length) warn(at, `jargon in narration (${found.join(", ")}) — see PLAIN.md`);
+    if (/[%№#&*+=\/−]|\d[.,]\d/.test(n)) warn(at, `symbol in narration: "${n}" — write it as spoken ("70 foiz", "ikki yarim")`);
+    if (n.includes("'") && !fix) warn(at, "ASCII apostrophe in narration — run with --fix");
+  }
+}
+const narrated = (sb.beats ?? []).filter(b => b.narration).length;
+if (narrated > 0 && narrated < (sb.beats ?? []).length) {
+  warn("narration", `${narrated} of ${sb.beats.length} beats have narration — the others play silent`);
 }
 
 if (fix) {
@@ -244,12 +262,27 @@ if (fix) {
 // ---- report --------------------------------------------------------------
 
 if (errors.length === 0 && Array.isArray(sb.beats)) {
-  const tl = timeline(sb);
-  const total = totalFrames(sb) / FPS;
-  console.log("Timeline (no narration — every beat stays long enough to read):");
-  sb.beats.forEach((b, i) => {
+  // Time narrated beats by their real audio once voice.mjs has run.
+  const manifestPath = join(dirname(file), "audio", "manifest.json");
+  const manifest = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, "utf8")) : null;
+  const timed = {
+    ...sb,
+    beats: sb.beats.map(b => {
+      const a = manifest?.beats?.[b.id];
+      return a && a.text === b.narration?.trim() ? { ...b, audio: a } : b;
+    }),
+  };
+  const tl = timeline(timed);
+  const total = totalFrames(timed) / FPS;
+  console.log(
+    narrated
+      ? "Timeline (narrated beats last until the voice ends; estimate until voice.mjs runs):"
+      : "Timeline (no narration — every beat stays long enough to read):"
+  );
+  timed.beats.forEach((b, i) => {
     const start = (tl[i].from / FPS).toFixed(1).padStart(5);
-    console.log(`  ${start}s  ${beatSeconds(b).toFixed(1).padStart(4)}s  ${b.type.padEnd(8)} ${b.id}`);
+    const voice = b.audio ? "  voice" : b.narration ? "  voice (estimate)" : "";
+    console.log(`  ${start}s  ${beatSeconds(b).toFixed(1).padStart(4)}s  ${b.type.padEnd(8)} ${b.id}${voice}`);
   });
   console.log(`  total ${total.toFixed(1)}s`);
   if (total > 150) warn("video", `${total.toFixed(0)}s is long for a client — cut beats`);
