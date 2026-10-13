@@ -1,0 +1,5 @@
+interface:
+  display_name: "Showcase"
+  short_description: "Present a code change to clients as a deck and an animated video"
+policy:
+  allow_implicit_invocation: false

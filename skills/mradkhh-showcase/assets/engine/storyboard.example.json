@@ -1,0 +1,109 @@
+{
+  "title": "Bekor qilingan buyurtma uchun pul avtomatik qaytadi",
+  "client": "Namuna do‘kon",
+  "date": "2026-yil oktabr",
+  "beats": [
+    {
+      "id": "title",
+      "type": "title",
+      "headline": "Bekor qilingan buyurtma uchun pul avtomatik qaytadi",
+      "subtitle": "Mijoz endi pulini kutib o‘tirmaydi",
+      "notes": "Bugun bitta yangi imkoniyatni ko‘rsatamiz: mijoz buyurtmani bekor qilsa, pul o‘zi qaytadi."
+    },
+    {
+      "id": "problem",
+      "type": "compare",
+      "headline": "Nima o‘zgaradi",
+      "before": {
+        "title": "Hozir",
+        "points": [
+          "Mijoz operatorga qo‘ng‘iroq qiladi",
+          "Operator pulni qo‘lda qaytaradi",
+          "Mijoz bir necha kun kutadi"
+        ]
+      },
+      "after": {
+        "title": "Endi",
+        "points": [
+          "Mijoz bitta tugmani bosadi",
+          "Tizim pulni o‘zi qaytaradi",
+          "Mijoz darhol SMS oladi"
+        ]
+      },
+      "facts": ["F1", "F2"],
+      "notes": "Chap tomonda bugungi jarayon. O‘ng tomonda yangisi: operator ishtirokisiz."
+    },
+    {
+      "id": "flow",
+      "type": "flow",
+      "headline": "Bu qanday ishlaydi",
+      "steps": [
+        { "actor": "Mijoz", "label": "Buyurtmani bekor qiladi" },
+        { "actor": "Tizim", "label": "Buyurtma holatini tekshiradi" },
+        { "actor": "Tizim", "label": "Pulni kartaga qaytaradi", "highlight": true },
+        { "actor": "Mijoz", "label": "SMS xabar oladi" }
+      ],
+      "facts": ["F2", "F3", "F4"],
+      "notes": "Yangi qism — uchinchi qadam. Avval buni operator qilardi."
+    },
+    {
+      "id": "rule",
+      "type": "branch",
+      "headline": "Pul har doim qaytadimi?",
+      "question": "Buyurtma yo‘lga chiqqanmi?",
+      "options": [
+        { "when": "Yo‘q", "then": "Pul to‘liq va darhol qaytadi", "highlight": true },
+        { "when": "Ha, kuryer yo‘lda", "then": "So‘rovni operator ko‘rib chiqadi" }
+      ],
+      "facts": ["F3"],
+      "notes": "Kuryer yo‘lga chiqqan bo‘lsa, avvalgidek operator qaror qiladi."
+    },
+    {
+      "id": "screen",
+      "type": "screen",
+      "headline": "Mijoz buni qanday ko‘radi",
+      "device": "phone",
+      "elements": [
+        { "kind": "header", "label": "Buyurtma №1024" },
+        { "kind": "text", "label": "Holati: tayyorlanmoqda" },
+        { "kind": "card", "label": "2 ta mahsulot" },
+        { "kind": "button", "label": "Buyurtmani bekor qilish", "highlight": true },
+        { "kind": "toast", "label": "Pul kartangizga qaytarildi" }
+      ],
+      "caption": "Mijoz bitta tugmani bosadi va pul qaytgani haqida darhol xabar oladi.",
+      "facts": ["F1", "F4"]
+    },
+    {
+      "id": "impact",
+      "type": "metric",
+      "headline": "Kutilayotgan natija",
+      "metrics": [
+        { "value": "−70%", "label": "operatorga qo‘ng‘iroqlar" },
+        { "value": "1 daqiqa", "label": "pul qaytish vaqti" }
+      ],
+      "source": "Namuna raqamlar. Haqiqiy raqamlarni foydalanuvchi beradi.",
+      "notes": "Bu raqamlar namuna. Taqdimotda faqat siz bergan raqamlar bo‘ladi."
+    },
+    {
+      "id": "limits",
+      "type": "points",
+      "headline": "Nimani bilish kerak",
+      "points": [
+        "Yo‘ldagi buyurtmalarni hali ham operator ko‘radi",
+        "Pul kartaga tushish vaqti bankka bog‘liq",
+        "Har bir qaytarish hisobotda ko‘rinadi"
+      ],
+      "facts": ["F3", "F5"]
+    },
+    {
+      "id": "next",
+      "type": "closing",
+      "headline": "Keyingi qadamlar",
+      "points": [
+        "Bir hafta sinov rejimida ishlatamiz",
+        "Natijalarni birga ko‘rib chiqamiz",
+        "Sizdan: SMS matnini tasdiqlash"
+      ]
+    }
+  ]
+}

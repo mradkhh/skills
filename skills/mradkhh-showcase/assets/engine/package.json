@@ -1,0 +1,30 @@
+{
+  "name": "mradkhh-showcase-engine",
+  "private": true,
+  "type": "module",
+  "description": "Renders a showcase storyboard into an editable .pptx deck and an animated .mp4 video.",
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "deck": "node scripts/deck.mjs",
+    "video": "node scripts/video.mjs",
+    "studio": "remotion studio src/index.ts"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.535",
+    "@remotion/cli": "4.0.535",
+    "@remotion/google-fonts": "4.0.535",
+    "@remotion/renderer": "4.0.535",
+    "@remotion/transitions": "4.0.535",
+    "pptxgenjs": "4.0.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "remotion": "4.0.535"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.18",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
