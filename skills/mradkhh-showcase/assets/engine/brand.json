@@ -1,0 +1,31 @@
+{
+  "name": "mradkhh",
+  "url": "mradkhh.uz",
+  "video": {
+    "headingFont": "Google Sans Code",
+    "bodyFont": "Google Sans",
+    "background": "#212737",
+    "surface": "#2a3144",
+    "border": "#3a4460",
+    "foreground": "#eaedf3",
+    "muted": "#98a2b8",
+    "accent": "#34af07",
+    "accentForeground": "#ffffff"
+  },
+  "deck": {
+    "headingFont": "Arial",
+    "bodyFont": "Arial",
+    "background": "#fdfdfd",
+    "surface": "#f2f4f0",
+    "border": "#d9ded5",
+    "foreground": "#282728",
+    "muted": "#6b6f76",
+    "accent": "#237d02",
+    "accentForeground": "#ffffff"
+  },
+  "labels": {
+    "new": "Yangi",
+    "source": "Manba",
+    "next": "Keyingi qadamlar"
+  }
+}
