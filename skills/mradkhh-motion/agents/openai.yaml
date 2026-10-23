@@ -1,0 +1,5 @@
+interface:
+  display_name: "Motion"
+  short_description: "Direct and render an original motion video, from storyboard to a checked MP4"
+policy:
+  allow_implicit_invocation: false
